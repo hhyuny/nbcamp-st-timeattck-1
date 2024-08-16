@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
-const InputBar = ({ createNation, updateNation }) => {
+const InputBar = ({ createNation, updateNation, nationInfo }) => {
   const [nation, setNation] = useState("");
   const [gold, setGold] = useState("");
   const [silver, setSilver] = useState("");
   const [bronze, setBronze] = useState("");
+
+  const emptyNationRef = useRef();
+
+  const emptyInput = () => {
+    setNation("");
+    setGold("");
+    setSilver("");
+    setBronze("");
+  };
 
   const onChangeNation = (e) => {
     setNation(e.target.value);
@@ -27,17 +36,31 @@ const InputBar = ({ createNation, updateNation }) => {
       return;
     }
 
+    const duplicatedNation = nationInfo.some((country) => country.nation === nation);
+    if (duplicatedNation) {
+      alert("이미 존재하는 국가입니다.");
+      emptyInput();
+      emptyNationRef.current.focus();
+
+      return;
+    }
+
     createNation(nation, gold, silver, bronze);
+
+    emptyInput();
+    emptyNationRef.current.focus();
   };
 
   const onUpdateNation = () => {
     updateNation(nation, gold, silver, bronze);
+    emptyInput();
+    emptyNationRef.current.focus();
   };
 
   return (
     <div>
       <form onSubmit={addNewNation}>
-        <input value={nation} type="text" placeholder="국가명" onChange={onChangeNation} />
+        <input value={nation} type="text" placeholder="국가명" onChange={onChangeNation} ref={emptyNationRef} />
         <input value={gold} type="number" placeholder="금메달" onChange={onChangeGold} />
         <input value={silver} type="number" placeholder="은메달" onChange={onChangeSilver} />
         <input value={bronze} type="number" placeholder="동메달" onChange={onChangeBronze} />

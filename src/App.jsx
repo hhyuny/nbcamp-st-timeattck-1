@@ -43,7 +43,7 @@ function App() {
   return (
     <>
       <Header />
-      <InputBar createNation={createNation} updateNation={updateNation} />
+      <InputBar createNation={createNation} updateNation={updateNation} nationInfo={nationInfo} />
       <NationList nationInfo={nationInfo} removeNation={removeNation} />
     </>
   );
