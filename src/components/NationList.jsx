@@ -1,9 +1,10 @@
 import NationItem from "./NationItem";
 
 const NationList = ({ nationInfo, removeNation }) => {
+  const descendingOrderOfGold = nationInfo.sort((a, b) => b.gold - a.gold);
   return (
     <div>
-      {nationInfo.map((nation) => {
+      {descendingOrderOfGold.map((nation) => {
         return <NationItem key={nation.id} {...nation} removeNation={removeNation} />;
       })}
     </div>

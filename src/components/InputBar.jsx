@@ -6,7 +6,7 @@ const InputBar = ({ createNation, updateNation, nationInfo }) => {
   const [silver, setSilver] = useState("");
   const [bronze, setBronze] = useState("");
 
-  const emptyNationRef = useRef();
+  const focusNationRef = useRef();
 
   const emptyInput = () => {
     setNation("");
@@ -40,7 +40,7 @@ const InputBar = ({ createNation, updateNation, nationInfo }) => {
     if (duplicatedNation) {
       alert("이미 존재하는 국가입니다.");
       emptyInput();
-      emptyNationRef.current.focus();
+      focusNationRef.current.focus();
 
       return;
     }
@@ -48,19 +48,26 @@ const InputBar = ({ createNation, updateNation, nationInfo }) => {
     createNation(nation, gold, silver, bronze);
 
     emptyInput();
-    emptyNationRef.current.focus();
+    focusNationRef.current.focus();
   };
 
   const onUpdateNation = () => {
+    const abc = nationInfo.some((country) => country.nation === nation);
+    if (!abc) {
+      alert("등록된 국가가 아닙니다.");
+      emptyInput();
+      focusNationRef.current.focus();
+      return;
+    }
     updateNation(nation, gold, silver, bronze);
     emptyInput();
-    emptyNationRef.current.focus();
+    focusNationRef.current.focus();
   };
 
   return (
     <div>
       <form onSubmit={addNewNation}>
-        <input value={nation} type="text" placeholder="국가명" onChange={onChangeNation} ref={emptyNationRef} />
+        <input value={nation} type="text" placeholder="국가명" onChange={onChangeNation} ref={focusNationRef} />
         <input value={gold} type="number" placeholder="금메달" onChange={onChangeGold} />
         <input value={silver} type="number" placeholder="은메달" onChange={onChangeSilver} />
         <input value={bronze} type="number" placeholder="동메달" onChange={onChangeBronze} />
