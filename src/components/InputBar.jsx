@@ -52,8 +52,8 @@ const InputBar = ({ createNation, updateNation, nationInfo }) => {
   };
 
   const onUpdateNation = () => {
-    const abc = nationInfo.some((country) => country.nation === nation);
-    if (!abc) {
+    const nonExistentNation = nationInfo.some((country) => country.nation === nation);
+    if (!nonExistentNation) {
       alert("등록된 국가가 아닙니다.");
       emptyInput();
       focusNationRef.current.focus();
